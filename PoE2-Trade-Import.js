@@ -2,7 +2,7 @@
 // @name         PoE2 Trade Import
 // @namespace    http://tampermonkey.net/
 // @version      1.0
-// @description  Full port of the PoE2 Trade Extension. Adds an "Import Item" button to the trade site. Fixes duplicates and missing stats.
+// @description  Tampermonkey script to allow the user to import item strings for faster item search on the PoE 2 trading website.
 // @author       MIYANKO
 // @match        *://*.pathofexile.com/trade2/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=pathofexile.com

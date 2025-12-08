@@ -1,6 +1,6 @@
 # PoE2 Trade Import
 
-Full port of the PoE2 Trade Extension. Adds an "Import Item" button to the trade site. Fixes duplicates and missing stats.
+Tampermonkey script to allow the user to import item strings for faster item search on the PoE 2 trading website.
 
 ## Features
 - **Import Item**: Adds an "Import Item" button to the trade site to easily import item stats.
