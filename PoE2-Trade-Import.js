@@ -1,15 +1,16 @@
 // ==UserScript==
 // @name         PoE2 Trade Import
-// @namespace    http://tampermonkey.net/
-// @version      1.0
-// @description  Tampermonkey script to allow the user to import item strings for faster item search on the PoE 2 trading website.
-// @author       MIYANKO
+// @namespace    https://github.com/marco-vrinssen/PoE2-Trade-Import
+// @version      1.0.0
+// @description  Import item stats into Path of Exile 2 trade site search filters
+// @author       marco-vrinssen
 // @match        *://*.pathofexile.com/trade2/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=pathofexile.com
+// @run-at       document-end
 // @grant        none
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
     // =========================================================================
@@ -206,7 +207,7 @@
                     });
 
                     window.statsMap = statsMap;
-                    if(DEBUG) console.log("[PoE Import] Stats Map built with " + Object.keys(statsMap).length + " entries.");
+                    if (DEBUG) console.log("[PoE Import] Stats Map built with " + Object.keys(statsMap).length + " entries.");
 
                     // 2. Build Item Class Map
                     const propertyFilters = staticData.propertyFilters || [];
@@ -398,7 +399,7 @@
 
         const close = () => overlay.remove();
         document.getElementById('poe-close').onclick = close;
-        overlay.addEventListener('click', (e) => { if(e.target === overlay) close(); });
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
 
         const sync = (rangeId, inputId) => {
             const range = document.getElementById(rangeId);
@@ -414,7 +415,7 @@
         const loadVal = (id, key) => {
             const val = localStorage.getItem(key) || 0;
             document.getElementById(id).value = val;
-            if(id.includes('range')) document.getElementById(id.replace('range','input')).value = val;
+            if (id.includes('range')) document.getElementById(id.replace('range', 'input')).value = val;
         };
 
         loadBool('poe-check-attr', 'poe_import_attr');
@@ -447,7 +448,7 @@
             status.textContent = "Filters applied!";
             status.className = "poe-status text-green";
             setTimeout(() => {
-                if(document.getElementById('poe-import-modal')) document.getElementById('poe-import-modal').remove();
+                if (document.getElementById('poe-import-modal')) document.getElementById('poe-import-modal').remove();
             }, 800);
         } catch (e) {
             console.error(e);
@@ -494,24 +495,24 @@
 
             // 2. Percentage starts "48% faster start..."
             if (/^[+-]?\d+(?:\.\d+)?%?/.test(cleaned)) {
-                 match = cleaned.match(/[+-]?\d+(?:\.\d+)?/);
-                 // Replace the number AND the optional % immediately following it with #% or #
-                 // If the text is "35% reduced...", we want "#% reduced..."
-                 // If the text is "35 reduced...", we want "# reduced..."
+                match = cleaned.match(/[+-]?\d+(?:\.\d+)?/);
+                // Replace the number AND the optional % immediately following it with #% or #
+                // If the text is "35% reduced...", we want "#% reduced..."
+                // If the text is "35 reduced...", we want "# reduced..."
 
-                 // Smart replacement:
-                 // Regex to capture Number + Optional Percent
-                 const replaceRegex = /^[+-]?(\d+(?:\.\d+)?)(%?)/;
-                 const parts = cleaned.match(replaceRegex);
+                // Smart replacement:
+                // Regex to capture Number + Optional Percent
+                const replaceRegex = /^[+-]?(\d+(?:\.\d+)?)(%?)/;
+                const parts = cleaned.match(replaceRegex);
 
-                 let humanText = cleaned;
-                 if (parts) {
-                     // parts[1] is number, parts[2] is % or empty
-                     const replacement = "#" + parts[2]; // e.g. "#%" or "#"
-                     humanText = cleaned.replace(replaceRegex, replacement).trim();
-                 }
+                let humanText = cleaned;
+                if (parts) {
+                    // parts[1] is number, parts[2] is % or empty
+                    const replacement = "#" + parts[2]; // e.g. "#%" or "#"
+                    humanText = cleaned.replace(replaceRegex, replacement).trim();
+                }
 
-                 return { humanText: humanText, min: parseFloat(match[0]) };
+                return { humanText: humanText, min: parseFloat(match[0]) };
             }
 
             // 3. Number anywhere "Gain 3 Mana..."
